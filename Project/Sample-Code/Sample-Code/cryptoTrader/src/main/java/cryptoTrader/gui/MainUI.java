@@ -64,7 +64,7 @@ public class MainUI extends JFrame implements ActionListener {
 	private MainUI() {
 
 		// Set window title
-		super("Crypto Trading Tool");
+		super("Bitconnect");
 
 		// Set top bar
 
@@ -125,6 +125,7 @@ public class MainUI extends JFrame implements ActionListener {
 		strategyNames.add("Strategy-B");
 		strategyNames.add("Strategy-C");
 		strategyNames.add("Strategy-D");
+		strategyNames.add("Strategy-E");
 		TableColumn strategyColumn = table.getColumnModel().getColumn(2);
 		JComboBox comboBox = new JComboBox(strategyNames);
 		strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
