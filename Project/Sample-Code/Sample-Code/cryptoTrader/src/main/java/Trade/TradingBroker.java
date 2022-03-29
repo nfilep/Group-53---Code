@@ -1,7 +1,7 @@
 package Trade;
 
 public class TradingBroker {
-	//hell
+	//hello
 	private String name;
 	private String coinList;
 	private String tradingStrategySelection;
