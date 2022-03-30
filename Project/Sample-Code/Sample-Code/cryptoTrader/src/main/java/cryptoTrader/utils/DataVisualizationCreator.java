@@ -27,7 +27,7 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
-import cryptoTrader.gui.MainUI;
+import MainUI.MainUI;
 
 public class DataVisualizationCreator {
 	
