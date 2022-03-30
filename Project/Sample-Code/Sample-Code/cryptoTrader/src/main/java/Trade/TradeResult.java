@@ -1,7 +1,5 @@
 package Trade;
 
-// One trade result per trade. Everytime trade is called, it produces a trade result
-
 public class TradeResult {
 	private String traderName;
 	private String strategyName;
@@ -28,6 +26,7 @@ public class TradeResult {
 	}
 	
 	public String[] returnData() {
-		return new String{traderName, strategyName, coinType, Double.toString(quantityTraded), Integer.toString(quantityTraded), Boolean.toString(success)};
+		//return new String{traderName, strategyName, coinType, Double.toString(quantityTraded), Integer.toString(quantityTraded), Boolean.toString(success)};
+		return null;
 	}
 }
