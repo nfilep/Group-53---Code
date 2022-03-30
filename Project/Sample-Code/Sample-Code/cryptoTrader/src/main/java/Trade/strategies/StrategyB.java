@@ -10,4 +10,9 @@ public class StrategyB extends TradingStrategy {
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "Strategy-B";
+	}
+	
 }

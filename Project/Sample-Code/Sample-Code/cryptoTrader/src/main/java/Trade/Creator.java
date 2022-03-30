@@ -1,5 +1,7 @@
 package Trade;
 
+import Trade.strategies.TradingStrategy;
+
 public abstract class Creator {
-	public abstract Object create();
+	public abstract TradingStrategy create();
 }
