@@ -7,13 +7,27 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Database {
-    // TODO: remove and replace with Ewere's 'User' class 
+
+    private static Database instance = null;
+    private static String dataFile; 
+
+    private Database(String dataFile){
+        this.dataFile = dataFile; 
+        
+    }
+
+    private static Database getInstance(){
+        if(instance == null){
+            instance = new Database(dataFile); 
+        }
+        return instance;
+    }
+
+    // TODO: remove and replace with Ewere's User class 
     private static class User {
-        int id;
         String username, password;
 
-        User(int id, String username, String password) {
-            this.id = id;
+        User(String username, String password) {
             this.username = username;
             this.password = password;
         }
@@ -22,17 +36,13 @@ public class Database {
             return password;
         }
 
-        public int getId() {
-            return id;
-        }
-
         public String getUsername() {
             return username;
         }
 
     }
 
-    private static Map<Integer, User> userMap = new HashMap<Integer, User>();
+    private static Map<String, User> userMap = new HashMap<String, User>();
 
     public static void interpretDataFile(String fileName) {
         try {
@@ -41,11 +51,10 @@ public class Database {
             while (reader.hasNextLine()) {
                 String data = reader.nextLine();
                 String[] line = data.split(" ");
-                int id = Integer.valueOf(line[0]);
-                String username = line[1];
-                String password = line[2];
-                User newUser = new User(id, username, password);
-                userMap.put(id, newUser);
+                String username = line[0];
+                String password = line[1];
+                User newUser = new User(username, password);
+                userMap.put(username, newUser);
             }
             reader.close();
 
@@ -55,13 +64,13 @@ public class Database {
         }
     }
 
-    public static boolean lookupUsername(Integer userId) {
-        return userMap.containsKey(userId);
+    public static boolean lookupUsername(String username) {
+        return userMap.containsKey(username);
     }
 
-    public static boolean verifyPassword(Integer userId, String password) {
-        User user = userMap.get(userId);
-        return user.getPassword() == password;
+    public static boolean verifyPassword(String username, String password) {
+        User user = userMap.get(username);
+        return user.getPassword().equals(password);
     }
 
 }
