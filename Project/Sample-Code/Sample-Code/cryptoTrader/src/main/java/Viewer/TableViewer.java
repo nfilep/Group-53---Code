@@ -1,67 +1,109 @@
 package Viewer;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.Range;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import MainUI.MainUI;
+import Strategies.StrategyA;
+import Strategies.TradingStrategy;
 import Trade.TradeResult;
 
 public class TableViewer implements iViewer {
-	@Override
-	public void draw(TradeResult result) {
-		// TODO Auto-generated method stub
-		createTableOutput(result);
+	private final String[] STRATEGIES = {"Strategy A","Strategy B","Strategy C","Strategy D","Strategy E"}; 
+	private JFrame frame;
+	DefaultCategoryDataset dataset;
+	CategoryPlot plot;
+	
+	public TableViewer() {
+		frame = new JFrame();
+		dataset = new DefaultCategoryDataset();
+		
+		plot = new CategoryPlot();
+		BarRenderer barrenderer1 = new BarRenderer();
+		
+		for(int i = 0; i < STRATEGIES.length; i++) {
+			dataset.setValue(0, "", STRATEGIES[i]);
+		}
+		
+		plot.setDataset(0, dataset);
+		plot.setRenderer(0, barrenderer1);
+		
+		CategoryAxis domainAxis = new CategoryAxis("Strategy");
+		plot.setDomainAxis(domainAxis);
+		//LogAxis rangeAxis = new LogAxis("Actions(Buys or Sells)");
+		NumberAxis rangeAxis = new NumberAxis("Actions(Buys or Sells)");
+		
+		rangeAxis.setTickUnit(new NumberTickUnit(5));
+		rangeAxis.setRange(new Range(0, 30));
+		plot.setRangeAxis(rangeAxis);
+		
+		// Get rid of legend
+		plot.getRenderer().setSeriesVisibleInLegend(0, Boolean.FALSE, true);
+		
+		JFreeChart barChart = new JFreeChart("Actions Performed By Traders So Far", new Font("Serif", java.awt.Font.BOLD, 18), plot,
+				true);
+		
+		ChartPanel chartPanel = new ChartPanel(barChart);
+		chartPanel.setPreferredSize(new Dimension(700, 400));
+		chartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		chartPanel.setBackground(Color.white);
+		
+		// Stops the user from being able to zoom in and out
+		chartPanel.setRangeZoomable(false);
+		chartPanel.setDomainZoomable(false);
+		
+		frame.add(chartPanel);
+		frame.setSize(700, 400);
+        frame.setVisible(true);
 	}
 	
-	private void createTableOutput(TradeResult result) {
-		// Dummy dates for demo purposes. These should come from selection menu
-		Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
-		Object[][] data = new Object[result.getLength()][columnNames.length];
-		// Dummy data for demo purposes. These should come from actual fetcher
-		for(int i = 0; i < result.getLength(); i++) {
-			//for(int j = 0; j < columnNames.length; i++) {
-				if(result[i].getSuccess()) {
-					data[i][0] = result.getTraderName();
-					data[i][1] = result.getStrategy();
-					data[i][2] = result.getCoinType();
-					data[i][3] = result.getAction();
-					data[i][4] = result.getQuantityTraded();
-					data[i][5] = result.getPrice();
-					data[i][6] = result.getTimeStamp();
-				}
-			//}
+	@Override
+	public void draw(TradeResult result) {
+		if(result.getSuccess()) {
+			dataset.setValue(1,result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
+			plot.setDataset(0, dataset);
+		}else {
+			//JOptionPane.showMessageDialog(this, "");
+			System.out.println("Trade failed.");
+			return;
 		}
-		/*
-		Object[][] data = {
-				{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3","13-January-2022"},
-				{"Trader-2", "Strategy-B", "BTC", "Sell", "200", "50.2","13-January-2022"},
-				{"Trader-3", "Strategy-C", "USDT", "Buy", "1000", "2.59","15-January-2022"},
-				{"Trader-1", "Strategy-A", "USDC", "Buy", "500", "150.3","16-January-2022"},
-				{"Trader-2", "Strategy-B", "ADA", "Sell", "200", "50.2","16-January-2022"},
-				{"Trader-3", "Strategy-C", "SOL", "Buy", "1000", "2.59","17-January-2022"},
-				{"Trader-1", "Strategy-A", "ONE", "Buy", "500", "150.3","17-January-2022"},
-				{"Trader-2", "Strategy-B", "MANA", "Sell", "200", "50.2","17-January-2022"},
-				{"Trader-3", "Strategy-C", "AVAX", "Buy", "1000", "2.59","19-January-2022"},
-				{"Trader-1", "Strategy-A", "LUNA", "Buy", "500", "150.3","19-January-2022"},
-				{"Trader-2", "Strategy-B", "FTM", "Sell", "200", "50.2","19-January-2022"},
-				{"Trader-3", "Strategy-C", "HNT", "Buy", "1000", "2.59","20-January-2022"}
-		};*/
-		JTable table = new JTable(data, columnNames);
-		//table.setPreferredSize(new Dimension(600, 300));
-		
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
-                "Trader Actions",
-                TitledBorder.CENTER,
-                TitledBorder.TOP));
-		
-		scrollPane.setPreferredSize(new Dimension(800, 300));
-		table.setFillsViewportHeight(true);;
-		
-		MainUI.getInstance().updateStats(scrollPane);
+	}
+	
+	private int getStrategyIndex(TradingStrategy strategy) {
+		String str = strategy.toString();
+		return 65 - str.charAt(str.length()-1);
+	}
+	
+	public static void main(String[] args) {
+		TableViewer t = new TableViewer();
+		TradingStrategy stratA = new StrategyA();
+		String[] traderNames = {"Natalie", "Anusha", "Ewere", "Isaac", "Kostas"};
+		String[] coins = {"BTC", "ETH"};
+		double[] prices = {1.00, 2.50};
+		TradeResult testResult;
+		for(int i = 0; i < traderNames.length; i++) {
+			testResult = new TradeResult(traderNames[i], stratA, coins, prices, "buy", 100, "2022/04/02", true);
+			t.draw(testResult);
+		}
 	}
 }
