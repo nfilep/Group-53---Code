@@ -32,7 +32,6 @@ import cryptoTrader.utils.DataVisualizationCreator;
 
 public class MainUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-
 	private static MainUI instance; // This makes sure it follows the singleton design pattern
 	private JPanel stats, chartPanel, tablePanel;
 
