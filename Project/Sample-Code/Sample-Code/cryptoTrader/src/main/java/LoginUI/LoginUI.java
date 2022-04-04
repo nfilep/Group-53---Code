@@ -16,15 +16,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import MainUI.MainUI;
 import Database.Database;
 
 public class LoginUI extends JFrame implements ActionListener{
+	private static final long serialVersionUID = 1L;
 	private final int MAX_ATTEMPTS = 3; // The maximum incorrect login attempts allowed
 	
 	private static LoginUI instance;
-	private static JFrame frame = null;
-	private static Database db = Database.getInstance("users.txt");
 	
 	private JPanel mainPanel = new JPanel(new GridLayout(3,1,10,10));
 	
@@ -41,7 +39,7 @@ public class LoginUI extends JFrame implements ActionListener{
 	
 	private int numAttempts = 0; // The number of times the user has attempted to log in
 	
-	private boolean proceed = false;
+	private boolean proceed;
 	
 	public static LoginUI getInstance() {
 		if (instance == null)
@@ -52,6 +50,10 @@ public class LoginUI extends JFrame implements ActionListener{
 	private LoginUI() {
 		super("Bitconnect Login"); // Set window title
 		
+		//instance.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//instance.setSize(400, 225);
+		
+		proceed = false;
 		// Create a greeting message
 		mainPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Welcome to Bitconnect!",
 				TitledBorder.CENTER, TitledBorder.TOP));
@@ -84,7 +86,7 @@ public class LoginUI extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		String password = passwordInputField.getText();
+		String password = passwordInputField.getText(); // Get the inputed password
 		
 		if ("refresh".equals(command)) {
 			String username = usernameInputField.getText();
@@ -95,14 +97,13 @@ public class LoginUI extends JFrame implements ActionListener{
 				JOptionPane.showMessageDialog(this, "Please enter a password");
 				return;
 			}else {
-				// Enter code to authenticate the user
 				if(numAttempts < MAX_ATTEMPTS) {
-					//Boolean valid = authenticate(username, password);
 					if(authenticate(username, password)) {
-						frame.setVisible(false);
 						//JFrame mainframe = MainUI.getInstance();
 						//mainframe.setVisible(true);
+						System.out.println("Set proceed to true");
 						proceed = true;
+						instance.setVisible(false);
 						return;
 					}else {
 						JOptionPane.showMessageDialog(this, "Invalid username or password");
@@ -111,7 +112,7 @@ public class LoginUI extends JFrame implements ActionListener{
 					}
 				}else {
 					JOptionPane.showMessageDialog(this, "Maximum login attempts exceeded");
-					frame.setVisible(false);
+					instance.setVisible(false);
 					return;
 				}
 				
@@ -120,8 +121,9 @@ public class LoginUI extends JFrame implements ActionListener{
 	}
 	
 	private boolean authenticate(String username, String password) {
-		if(db.lookupUsername(username)) {
-			return db.verifyPassword(username, password);
+		Database db = Database.getInstance("users.txt");
+		if(Database.lookupUsername(username)) {
+			return Database.verifyPassword(username, password);
 		}
 		return false;
 	}
@@ -129,11 +131,11 @@ public class LoginUI extends JFrame implements ActionListener{
 	public boolean getProceed() {
 		return proceed;
 	}
-		
-	public static void main(String[] args) {
+	/*
+	public static void run() {
 		frame = LoginUI.getInstance();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setSize(400, 225);
 		frame.setVisible(true);
-	}
+	}*/
 }
