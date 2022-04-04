@@ -39,7 +39,6 @@ public class MainUI extends JFrame implements ActionListener {
 	private List<String> selectedList;
 
 	private JTextArea selectedTickerList;
-//	private JTextArea tickerList;
 	private JTextArea tickerText;
 	private JTextArea BrokerText;
 	private JComboBox<String> strategyList;
@@ -49,6 +48,8 @@ public class MainUI extends JFrame implements ActionListener {
 	private String selectedStrategy = "";
 	private DefaultTableModel dtm;
 	private JTable table;
+	
+	private HistogramViewer h;
 
 	// Uses singleton method
 	public static MainUI getInstance() {
@@ -59,63 +60,31 @@ public class MainUI extends JFrame implements ActionListener {
 	}
 
 	private MainUI() {
-		// Set window title
-		super("Bitconnect");
+		super("Bitconnect"); 		// Set window title
 
-		// Set top bar
-		JPanel north = new JPanel();
-
-//		north.add(strategyList);
-
-		// Set bottom bar
-//		JLabel from = new JLabel("From");
-//		UtilDateModel dateModel = new UtilDateModel();
-//		Properties p = new Properties();
-//		p.put("text.today", "Today");
-//		p.put("text.month", "Month");
-//		p.put("text.year", "Year");
-//		JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
-//		@SuppressWarnings("serial")
-//		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new AbstractFormatter() {
-//			private String datePatern = "dd/MM/yyyy";
-//
-//			private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePatern);
-//
-//			@Override
-//			public Object stringToValue(String text) throws ParseException {
-//				return dateFormatter.parseObject(text);
-//			}
-//
-//			@Override
-//			public String valueToString(Object value) throws ParseException {
-//				if (value != null) {
-//					Calendar cal = (Calendar) value;
-//					return dateFormatter.format(cal.getTime());
-//				}
-//
-//				return "";
-//			}
-//		});
-
+		JPanel north = new JPanel(); // Set top bar
+		JPanel south = new JPanel();		
+		
 		JButton trade = new JButton("Perform Trade");
 		trade.setActionCommand("refresh");
 		trade.addActionListener(this);
-
-		JPanel south = new JPanel();		
 		south.add(trade);
 
 		dtm = new DefaultTableModel(new Object[] { "Trading Client", "Coin List", "Strategy Name" }, 1);
 		table = new JTable(dtm);
-		// table.setPreferredSize(new Dimension(600, 300));
+		
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions",
 				TitledBorder.CENTER, TitledBorder.TOP));
+		//scrollPane.setPreferredSize(new Dimension(800, 300));
+		
 		Vector<String> strategyNames = new Vector<String>();
 		strategyNames.add("Strategy-A");
 		strategyNames.add("Strategy-B");
 		strategyNames.add("Strategy-C");
 		strategyNames.add("Strategy-D");
 		strategyNames.add("Strategy-E");
+		
 		TableColumn strategyColumn = table.getColumnModel().getColumn(2);
 		JComboBox comboBox = new JComboBox(strategyNames);
 		strategyColumn.setCellEditor(new DefaultCellEditor(comboBox));
@@ -126,36 +95,29 @@ public class MainUI extends JFrame implements ActionListener {
 		remRow.setActionCommand("remTableRow");
 		remRow.addActionListener(this);
 
-		scrollPane.setPreferredSize(new Dimension(800, 300));
 		table.setFillsViewportHeight(true);
 		
-
 		JPanel east = new JPanel();
-//		east.setLayout();
 		east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
-//		east.add(table);
 		east.add(scrollPane);
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 		buttons.add(addRow);
 		buttons.add(remRow);
 		east.add(buttons);
-//		east.add(selectedTickerListLabel);
-//		east.add(selectedTickersScrollPane);
 
 		// Set charts region
-		JPanel west = new JPanel();
-		west.setPreferredSize(new Dimension(1250, 650));
+		/*JPanel west = new JPanel();
+		//west.setPreferredSize(new Dimension(900, 650));
 		stats = new JPanel();
 		stats.setLayout(new GridLayout(2, 2));
 
-		west.add(stats);
+		west.add(stats);*/
 
 		getContentPane().add(north, BorderLayout.NORTH);
 		getContentPane().add(east, BorderLayout.EAST);
-		getContentPane().add(west, BorderLayout.CENTER);
+		//getContentPane().add(west, BorderLayout.CENTER);
 		getContentPane().add(south, BorderLayout.SOUTH);
-//		getContentPane().add(west, BorderLayout.WEST);
 	}
 
 	public void updateStats(JComponent component) {
@@ -163,9 +125,10 @@ public class MainUI extends JFrame implements ActionListener {
 		stats.revalidate();
 	}
 
-	public static void main(String[] args) {
+	// used to be main
+	public static void run() {
 		JFrame frame = MainUI.getInstance();
-		frame.setSize(900, 600);
+		//frame.setSize(1920, 1080);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -196,8 +159,7 @@ public class MainUI extends JFrame implements ActionListener {
 					System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
 	        }
 			stats.removeAll();
-			DataVisualizationCreator creator = new DataVisualizationCreator();
-			creator.createCharts();
+			System.out.println("Trade performed");
 		} else if ("addTableRow".equals(command)) {
 			dtm.addRow(new String[3]);
 		} else if ("remTableRow".equals(command)) {
@@ -206,5 +168,5 @@ public class MainUI extends JFrame implements ActionListener {
 				dtm.removeRow(selectedRow);
 		}
 	}
-
+	
 }
