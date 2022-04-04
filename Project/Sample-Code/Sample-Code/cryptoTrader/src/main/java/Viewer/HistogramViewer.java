@@ -1,74 +1,108 @@
 package Viewer;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import Trade.TradeResult;
-import Strategies.TradingStrategy;
-import Strategies.StrategyA;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.LogAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.Range;
+import org.jfree.data.category.DefaultCategoryDataset;
 
-public class HistogramViewer implements iViewer{
-	private final Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
+import MainUI.MainUI;
+import Strategies.StrategyA;
+import Strategies.TradingStrategy;
+import Trade.TradeResult;
+
+public class HistogramViewer implements iViewer {
+	private final String[] STRATEGIES = {"Strategy A","Strategy B","Strategy C","Strategy D","Strategy E"}; 
 	private JFrame frame;
-	private JTable table;
-	private DefaultTableModel model;
+	DefaultCategoryDataset dataset;
+	CategoryPlot plot;
 	
 	public HistogramViewer() {
 		frame = new JFrame();
-		table = new JTable();
-		table.setEnabled(false);
-		model = new DefaultTableModel();
-		model.addRow(columnNames);
+		dataset = new DefaultCategoryDataset();
 		
-		for(int i = 0; i < columnNames.length; i++) {
-			model.addColumn(columnNames[i]);
+		plot = new CategoryPlot();
+		BarRenderer barrenderer1 = new BarRenderer();
+		
+		for(int i = 0; i < STRATEGIES.length; i++) {
+			dataset.setValue(0, "", STRATEGIES[i]);
 		}
 		
-		model.removeRow(0);
-		table.setModel(model);
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
-                "Trader Actions",
-                TitledBorder.CENTER,
-                TitledBorder.TOP));
-			
-		scrollPane.setPreferredSize(new Dimension(800, 300));
-		frame.add(scrollPane);
-		frame.setSize(500, 200);
+		plot.setDataset(0, dataset);
+		plot.setRenderer(0, barrenderer1);
+		
+		CategoryAxis domainAxis = new CategoryAxis("Strategy");
+		plot.setDomainAxis(domainAxis);
+		NumberAxis rangeAxis = new NumberAxis("Actions(Buys or Sells)");
+		
+		rangeAxis.setTickUnit(new NumberTickUnit(5));
+		rangeAxis.setRange(new Range(0, 30));
+		plot.setRangeAxis(rangeAxis);
+		
+		// Get rid of legend
+		plot.getRenderer().setSeriesVisibleInLegend(0, Boolean.FALSE, true);
+		
+		JFreeChart barChart = new JFreeChart("Actions Performed By Traders So Far", new Font("Serif", java.awt.Font.BOLD, 18), plot,
+				true);
+		
+		ChartPanel chartPanel = new ChartPanel(barChart);
+		chartPanel.setPreferredSize(new Dimension(700, 400));
+		chartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		chartPanel.setBackground(Color.white);
+		
+		// Stops the user from being able to zoom in and out
+		chartPanel.setRangeZoomable(false);
+		chartPanel.setDomainZoomable(false);
+		
+		frame.add(chartPanel);
+		frame.setSize(700, 400);
         frame.setVisible(true);
 	}
 	
 	@Override
 	public void draw(TradeResult result) {
-		Object[][] displayData = result.getData();
-		 
-		for(int i = 0; i < displayData.length; i++) {
-			model.addRow(displayData[i]);
+		if(result.getSuccess()) {
+			dataset.setValue(1,result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
+			plot.setDataset(0, dataset);
+		}else {
+			//JOptionPane.showMessageDialog(this, "");
+			System.out.println("Trade failed.");
+			return;
 		}
-		
-		table.setModel(model);
+	}
+	
+	private int getStrategyIndex(TradingStrategy strategy) {
+		String str = strategy.toString();
+		return 65 - str.charAt(str.length()-1);
 	}
 	
 	public static void main(String[] args) {
-		HistogramViewer h = new HistogramViewer();
+		HistogramViewer t = new HistogramViewer();
 		TradingStrategy stratA = new StrategyA();
+		String[] traderNames = {"Natalie", "Anusha", "Ewere", "Isaac", "Kostas"};
 		String[] coins = {"BTC", "ETH"};
 		double[] prices = {1.00, 2.50};
 		TradeResult testResult;
-		for(int i = 0; i < 5; i++) {
-			testResult = new TradeResult("Natalie", stratA, coins, prices, "buy", i*10, "2022/04/02", true);
-			h.draw(testResult);
+		for(int i = 0; i < traderNames.length; i++) {
+			testResult = new TradeResult(traderNames[i], stratA, coins, prices, "buy", 100, "2022/04/02", true);
+			t.draw(testResult);
 		}
 	}
-
 }
