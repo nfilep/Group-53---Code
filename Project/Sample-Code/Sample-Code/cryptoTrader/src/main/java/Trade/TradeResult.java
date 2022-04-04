@@ -29,6 +29,10 @@ public class TradeResult {
 		return trader;
 	}
 	
+	public String getTimeStamp() {
+		return timeStamp;
+	}
+	
 	public TradingStrategy getStrategy() {
 		return strategy;
 	}
