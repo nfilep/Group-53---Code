@@ -7,24 +7,23 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Database {
-
-    private static Database instance = null;
+	private static Database instance;
+	private static Map<String, User> userMap = new HashMap<String, User>();
     private static String dataFile; 
 
     private Database(String dataFile){
-        this.dataFile = dataFile; 
-        
+        this.dataFile = dataFile;
+        instance.interpretDataFile(dataFile);
     }
 
-    private static Database getInstance(){
+    public static Database getInstance(String dataFile){
         if(instance == null){
             instance = new Database(dataFile); 
         }
         return instance;
     }
-
-    // TODO: remove and replace with Ewere's User class 
-    private static class User {
+    
+  	private static class User {
         String username, password;
 
         User(String username, String password) {
@@ -41,9 +40,7 @@ public class Database {
         }
 
     }
-
-    private static Map<String, User> userMap = new HashMap<String, User>();
-
+  	
     public static void interpretDataFile(String fileName) {
         try {
             File userFile = new File(fileName);
@@ -72,5 +69,13 @@ public class Database {
         User user = userMap.get(username);
         return user.getPassword().equals(password);
     }
+    
+   /*public static void main(String[] args) {
+    	Database testDb = Database.getInstance("users.txt");
+    	System.out.println(testDb.lookupUsername("a"));
+    	System.out.println(testDb.lookupUsername("anusha"));
+    	System.out.println(testDb.verifyPassword("anusha", "0"));
+    	System.out.println(testDb.verifyPassword("anusha", "abc1234"));
+    }*/
 
 }
