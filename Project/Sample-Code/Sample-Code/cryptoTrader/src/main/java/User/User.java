@@ -1,0 +1,79 @@
+package User;
+
+import java.util.ArrayList;
+
+import Trade.TradingBroker;
+/*Additional attribute sto distinguish btw the broker and the user
+ * */
+
+public class User {
+	
+	private String username; /*the name of the user*/
+	private String password; /*the password of users*/
+	private ArrayList<TradingBroker> brokerList;
+
+	
+	/* constructor */
+	public User(String user, String password) {
+		this.username = user;
+		this.password = password;
+	}
+	
+	/* GETTER METHODS */
+	public String getPassword() {
+		return password;		
+	}
+	 
+	public String getUserName() {
+		return username;
+	}
+
+	/*Adds a new trading broker to the system. If a broker of this name already exists, a message is displayed indicating so*/
+	public void addBroker(String name, String[] cryptoCoinList, TradingStrategy strategy) {
+	/*ATTRIBUTE ARRAY OF BROKERS
+	users= are NOT the same as BROKERS
+	name => brokers
+		/**/
+		TradingBroker newBroker = new TradingBroker(name, cryptoCoinList, strategy);
+		brokerList.add(newBroker);
+	} 
+	/*Removes a trading broker from the system.
+	 *  If no broker of this name exists, a message is displayed indicating so*/
+	public void removeBroker(String name) {
+		boolean isBroker = false; 
+		for(int i = 0; i < brokerList.size(); i++) {
+			TradingBroker broker = brokerList.get(i);
+			if(broker.getName().equals(name)){
+				isBroker = true;
+				brokerList.remove(i);
+			}
+		}
+		if(isBroker == false) {
+			System.out.println("No broker named " + name + " exists.");
+		}
+		
+		
+		
+	}
+	
+	
+	/*Initiates the trading process for all brokers logged into the system. main method calls
+	 * datatfetcher result*/
+	public void performTrade() {
+		
+		
+	}
+	
+	/*Sends information from completed trades to brokers in the system*/
+	public void notifyBrokers() {
+		/* broker a is interested in sth
+		 * do 
+		 * notify them for prices of cons interested in */
+	}
+	/* 
+	 * QUESTIONS
+	 * TO GET USERNAME AND PASSWORD, DO I HAVE TO READ EACH LINE IN THE TEXT FILE
+	 * how would i call TradingStrategy class
+	 * */
+
+}
