@@ -1,6 +1,7 @@
 package Bitconnect;
 
 import MainUI.MainUI;
+import User.User;
 import LoginUI.LoginUI;
 
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ public class Bitconnect {
 				e.printStackTrace();
 			}
 		}
+		User systemUser = login.getUser();
 		System.out.println("Test");
 		MainUI.run();
 	}

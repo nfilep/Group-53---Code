@@ -1,6 +1,9 @@
 package Viewer;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -25,11 +28,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import MainUI.MainUI;
 import Trade.*;
 
 public class ChartViewer extends JPanel implements ActionListener{
 	private List<String> selectedList;
+	private JButton tradeButton;
 
 	private JTextArea selectedTickerList;
 	private JTextArea tickerText;
@@ -47,12 +50,11 @@ public class ChartViewer extends JPanel implements ActionListener{
 		table = new JTable();
 		
 		this.setLayout(new BorderLayout());
+		//GridBagConstraints c = new GridBagConstraints();
 		
-		JButton trade = new JButton("Perform Trade");
-		trade.setActionCommand("refresh");
-		trade.addActionListener(this);
-		
-
+		tradeButton = new JButton("Perform Trade");
+		tradeButton.setActionCommand("refresh");
+		tradeButton.addActionListener(this);
 
 		dtm = new DefaultTableModel(new Object[] { "Trading Client", "Coin List", "Strategy Name" }, 1);
 		table = new JTable(dtm);
@@ -81,7 +83,7 @@ public class ChartViewer extends JPanel implements ActionListener{
 
 		table.setFillsViewportHeight(true);
 		
-		this.setLayout(new BorderLayout());
+		//this.setLayout(new BorderLayout());
 		this.add(scrollPane, BorderLayout.PAGE_START);
 		//JPanel buttons = new JPanel();
 		//buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
@@ -89,8 +91,8 @@ public class ChartViewer extends JPanel implements ActionListener{
 		//buttons.add(remRow);
 		this.add(addRow, BorderLayout.LINE_START);
 		this.add(remRow, BorderLayout.LINE_END);
-		trade.setAlignmentX(CENTER_ALIGNMENT);
-		this.add(trade, BorderLayout.PAGE_END);
+		tradeButton.setAlignmentX(CENTER_ALIGNMENT);
+		this.add(tradeButton, BorderLayout.PAGE_END);
 
 		// Set charts region
 		/*JPanel west = new JPanel();
@@ -101,8 +103,8 @@ public class ChartViewer extends JPanel implements ActionListener{
 		west.add(stats);*/
 		
 		//frame.add(scrollPane);
-		
-		this.setSize(800, 1080);
+		this.setSize(800,800);
+		//this.setPreferredSize(new Dimension(800,800));
 		//this.pack();
         //this.setVisible(true);
 	}
@@ -119,19 +121,29 @@ public class ChartViewer extends JPanel implements ActionListener{
 						return;
 					}
 					String traderName = traderObject.toString();
+					System.out.println(traderName);
 					Object coinObject = dtm.getValueAt(count, 1);
 					if (coinObject == null) {
 						JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line " + (count + 1) );
 						return;
 					}
 					String[] coinNames = coinObject.toString().split(",");
+					for(int i =0; i < coinNames.length; i++) {
+						System.out.println(coinNames[i]);
+					}
+					//System.out.println(coinNames);
 					Object strategyObject = dtm.getValueAt(count, 2);
 					if (strategyObject == null) {
 						JOptionPane.showMessageDialog(this, "please fill in strategy name on line " + (count + 1) );
 						return;
 					}
 					String strategyName = strategyObject.toString();
-					System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
+					//System.out.println(strategyName);
+					//System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
+					TradingBroker broker = new TradingBroker(traderName, coinNames, strategyName);
+					
+					//System.out.println("New trading broker added: " + broker.getName());
+					//System.out.println(broker);
 	        }
 			//stats.removeAll();
 			System.out.println("Trade performed");
@@ -148,6 +160,7 @@ public class ChartViewer extends JPanel implements ActionListener{
 		ChartViewer c = new ChartViewer();
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(c);
+		frame.setSize(new Dimension(800,800));
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);

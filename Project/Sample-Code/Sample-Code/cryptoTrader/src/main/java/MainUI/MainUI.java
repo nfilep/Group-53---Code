@@ -54,7 +54,7 @@ public class MainUI extends JFrame implements ActionListener {
 
 	private MainUI() {
 		super("Bitconnect"); 		// Set window title
-		 this.getContentPane().setLayout(new GridLayout(2,2));
+		this.getContentPane().setLayout(new GridLayout(2,2));
 //		frame = new JFrame();
 		
 		h = new HistogramViewer();

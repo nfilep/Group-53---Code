@@ -18,6 +18,7 @@ public class User {
 	public User(String user, String password) {
 		this.username = user;
 		this.password = password;
+		this.brokerList = new ArrayList<TradingBroker>();
 	}
 	
 	/* GETTER METHODS */
@@ -30,7 +31,7 @@ public class User {
 	}
 
 	/*Adds a new trading broker to the system. If a broker of this name already exists, a message is displayed indicating so*/
-	public void addBroker(String name, String[] cryptoCoinList, TradingStrategy strategy) {
+	public void addBroker(String name, String[] cryptoCoinList, String strategy) {
 	/*ATTRIBUTE ARRAY OF BROKERS
 	users= are NOT the same as BROKERS
 	name => brokers
@@ -52,9 +53,6 @@ public class User {
 		if(isBroker == false) {
 			System.out.println("No broker named " + name + " exists.");
 		}
-		
-		
-		
 	}
 	
 	

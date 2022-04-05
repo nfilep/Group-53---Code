@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import Database.Database;
+import User.User;
 
 public class LoginUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -40,6 +41,7 @@ public class LoginUI extends JFrame implements ActionListener{
 	private int numAttempts = 0; // The number of times the user has attempted to log in
 	
 	private boolean proceed;
+	private User user;
 	
 	public static LoginUI getInstance() {
 		if (instance == null)
@@ -123,6 +125,7 @@ public class LoginUI extends JFrame implements ActionListener{
 	private boolean authenticate(String username, String password) {
 		Database db = Database.getInstance("users.txt");
 		if(Database.lookupUsername(username)) {
+			user = new User(username, password);
 			return Database.verifyPassword(username, password);
 		}
 		return false;
@@ -130,6 +133,10 @@ public class LoginUI extends JFrame implements ActionListener{
 	
 	public boolean getProceed() {
 		return proceed;
+	}
+	
+	public User getUser() {
+		return user;
 	}
 	/*
 	public static void run() {

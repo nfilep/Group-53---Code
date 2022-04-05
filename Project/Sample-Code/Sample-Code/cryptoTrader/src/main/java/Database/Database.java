@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import User.User;
+
 public class Database {
 	private static Database instance;
 	private static Map<String, User> userMap = new HashMap<String, User>();
@@ -23,6 +25,7 @@ public class Database {
         return instance;
     }
     
+    /*
   	private static class User {
         String username, password;
 
@@ -39,7 +42,7 @@ public class Database {
             return username;
         }
 
-    }
+    }*/
   	
     public static void interpretDataFile(String fileName) {
         try {
