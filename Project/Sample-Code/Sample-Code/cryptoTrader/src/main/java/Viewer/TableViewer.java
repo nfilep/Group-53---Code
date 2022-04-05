@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
@@ -17,14 +18,14 @@ import Trade.TradeResult;
 import Strategies.TradingStrategy;
 import Strategies.StrategyA;
 
-public class TableViewer implements iViewer{
+public class TableViewer extends JPanel implements iViewer{
 	private final Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
-	private JFrame frame;
 	private JTable table;
 	private DefaultTableModel model;
 	
 	public TableViewer() {
-		frame = new JFrame();
+		//frame = new JFrame();
+		//panel = new JPanel();
 		table = new JTable();
 		table.setEnabled(false);
 		model = new DefaultTableModel();
@@ -43,9 +44,9 @@ public class TableViewer implements iViewer{
                 TitledBorder.TOP));
 			
 		scrollPane.setPreferredSize(new Dimension(800, 300));
-		frame.add(scrollPane);
-		frame.setSize(500, 200);
-        frame.setVisible(true);
+		this.add(scrollPane);
+		this.setSize(500, 200);
+        this.setVisible(true);
 	}
 	
 	@Override
@@ -63,7 +64,11 @@ public class TableViewer implements iViewer{
 	}
 	
 	public static void main(String[] args) {
-		TableViewer h = new TableViewer();
+		TableViewer t = new TableViewer();
+		JFrame frame = new JFrame();
+		//this.getContentPane.add(t);
+		frame.add(t);
+		
 		TradingStrategy stratA = new StrategyA();
 		String[] coins = {"BTC", "ETH"};
 		double[] prices = {1.00, 2.50};
@@ -72,7 +77,7 @@ public class TableViewer implements iViewer{
 		TradeResult testResult;
 		for(int i = 0; i < 5; i++) {
 			testResult = new TradeResult("Natalie", stratA, coins, prices, "buy", i*10, "2022/04/02", passFail[i]);
-			h.draw(testResult);
+			t.draw(testResult);
 		}
 	}
 

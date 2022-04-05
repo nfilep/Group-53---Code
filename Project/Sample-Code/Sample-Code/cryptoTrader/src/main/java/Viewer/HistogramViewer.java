@@ -7,6 +7,7 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
@@ -28,14 +29,12 @@ import Strategies.StrategyA;
 import Strategies.TradingStrategy;
 import Trade.TradeResult;
 
-public class HistogramViewer implements iViewer {
+public class HistogramViewer extends JPanel implements iViewer {
 	private final String[] STRATEGIES = {"Strategy A","Strategy B","Strategy C","Strategy D","Strategy E"}; 
-	private JFrame frame;
 	DefaultCategoryDataset dataset;
 	CategoryPlot plot;
 	
 	public HistogramViewer() {
-		frame = new JFrame();
 		dataset = new DefaultCategoryDataset();
 		
 		plot = new CategoryPlot();
@@ -71,9 +70,9 @@ public class HistogramViewer implements iViewer {
 		chartPanel.setRangeZoomable(false);
 		chartPanel.setDomainZoomable(false);
 		
-		frame.add(chartPanel);
-		frame.setSize(700, 400);
-        frame.setVisible(true);
+		this.add(chartPanel);
+		this.setSize(700, 400);
+        this.setVisible(true);
 	}
 	
 	@Override
@@ -82,8 +81,7 @@ public class HistogramViewer implements iViewer {
 			dataset.setValue(1,result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
 			plot.setDataset(0, dataset);
 		}else {
-			//JOptionPane.showMessageDialog(this, "");
-			System.out.println("Trade failed.");
+			JOptionPane.showMessageDialog(this, "Trade failed.");
 			return;
 		}
 	}
@@ -95,13 +93,20 @@ public class HistogramViewer implements iViewer {
 	
 	public static void main(String[] args) {
 		HistogramViewer t = new HistogramViewer();
+		JFrame frame = new JFrame();
+		frame.add(t);
+		frame.pack();
+		frame.setVisible(true);
+		
 		TradingStrategy stratA = new StrategyA();
 		String[] traderNames = {"Natalie", "Anusha", "Ewere", "Isaac", "Kostas"};
 		String[] coins = {"BTC", "ETH"};
 		double[] prices = {1.00, 2.50};
+		boolean[] passFail = {true,true,true,true,true};
+		
 		TradeResult testResult;
 		for(int i = 0; i < traderNames.length; i++) {
-			testResult = new TradeResult(traderNames[i], stratA, coins, prices, "buy", 100, "2022/04/02", true);
+			testResult = new TradeResult(traderNames[i], stratA, coins, prices, "buy", 100, "2022/04/02", passFail[i]);
 			t.draw(testResult);
 		}
 	}
