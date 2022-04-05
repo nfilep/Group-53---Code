@@ -2,7 +2,7 @@ package Trade;
 
 import java.util.Arrays;
 
-import Trade.strategies.TradingStrategy;
+import Strategies.TradingStrategy;
 
 public class TradeResult {
 	private String trader;
@@ -25,6 +25,14 @@ public class TradeResult {
 		this.success = success;
 	}
 	
+	public String getTrader() {
+		return trader;
+	}
+	
+	public TradingStrategy getStrategy() {
+		return strategy;
+	}
+	
 	public String[] getCoinList() {
 		return coinList;
 	}
@@ -37,8 +45,14 @@ public class TradeResult {
 		return success;
 	}
 	
-	public String[] getData() {
-		String[] data = {trader, strategy.toString(), action, "" + quantity, timeStamp};
+	public String[][] getData() {
+		String[][] data = new String[coinList.length][];
+		for(int i = 0; i < coinList.length; i++) {
+			String[] row = {trader, strategy.toString(), coinList[i].toString(), action, "" + quantity, ((Double)coinPriceList[i]).toString(),timeStamp}; 
+			data[i] = row; 
+		}
+		
+		//String[] data = {trader, strategy.toString(), coins, action, "" + quantity, prices,timeStamp};
 		return data;
 	}
 	
