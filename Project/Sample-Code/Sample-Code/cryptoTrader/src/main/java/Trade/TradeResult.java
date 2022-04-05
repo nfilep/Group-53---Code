@@ -2,7 +2,7 @@ package Trade;
 
 import java.util.Arrays;
 
-import Strategies.TradingStrategy;
+import Trade.strategies.TradingStrategy;
 
 public class TradeResult {
 	private String trader;
@@ -27,6 +27,10 @@ public class TradeResult {
 	
 	public String getTrader() {
 		return trader;
+	}
+	
+	public String getTimeStamp() {
+		return timeStamp;
 	}
 	
 	public TradingStrategy getStrategy() {
