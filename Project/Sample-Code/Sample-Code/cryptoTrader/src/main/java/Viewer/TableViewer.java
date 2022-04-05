@@ -15,8 +15,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Trade.TradeResult;
-import Strategies.TradingStrategy;
-import Strategies.StrategyA;
+import Trade.strategies.*;
 
 public class TableViewer extends JPanel implements iViewer{
 	private final Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};

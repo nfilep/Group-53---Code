@@ -25,9 +25,8 @@ import org.jfree.data.Range;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import MainUI.MainUI;
-import Strategies.StrategyA;
-import Strategies.TradingStrategy;
-import Trade.TradeResult;
+import Trade.*;
+import Trade.strategies.*;
 
 public class HistogramViewer extends JPanel implements iViewer {
 	private final String[] STRATEGIES = {"Strategy A","Strategy B","Strategy C","Strategy D","Strategy E"}; 

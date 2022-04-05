@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Trade.TradingBroker;
 /*Additional attribute sto distinguish btw the broker and the user
  * */
+import Trade.strategies.TradingStrategy;
 
 public class User {
 	
