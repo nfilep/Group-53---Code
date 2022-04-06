@@ -8,8 +8,10 @@ public class StrategyD extends TradingStrategy {
 	
 	@Override
 	public TradeResult trade(ArrayList<String> coinList, ArrayList<Double> coinPriceList) {
+		String date = java.time.LocalDate.now().toString();
+		
 		if(!coinList.contains("XRP") || !coinList.contains("ADA") || !coinList.contains("SOL"))
-			return new TradeResult(this, "N/A", null, "N/A", null, "", false);
+			return new TradeResult(this, "N/A", null, "N/A", null, date, false);
 		
 		else {
 			int xrpIndex = coinList.indexOf("XRP");
@@ -18,14 +20,13 @@ public class StrategyD extends TradingStrategy {
 				int solIndex = coinList.indexOf("SOL");
 				double solPrice = coinPriceList.get(solIndex);
 				
-				//Buy 30$ worth of SOL
-				
-				
-				return new TradeResult(this, "SOL", coinPriceList.get(ethIndex), "Buy", 0.5, "", true);
+				//Sell 30$ worth of SOL if ADA < $2.00 AND XRP > $1.00
+				double quantity = 30/solPrice;
+				return new TradeResult(this, "SOL", solPrice, "Sell", quantity, date, true);
 			}
 			
 			else
-				return new TradeResult(this, "N/A", null, "N/A", null, "", false);
+				return new TradeResult(this, "N/A", null, "N/A", null, date, false);
 		}
 	}
 
