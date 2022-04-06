@@ -82,7 +82,10 @@ public class LoginUI extends JFrame implements ActionListener{
 		mainPanel.add(passwordPanel);
 		mainPanel.add(loginPanel);
 		
-		getContentPane().add(mainPanel);
+		this.add(mainPanel);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setSize(400, 225);
+		this.setVisible(true);
 	}
 
 	@Override
@@ -138,11 +141,8 @@ public class LoginUI extends JFrame implements ActionListener{
 	public User getUser() {
 		return user;
 	}
-	/*
-	public static void run() {
-		frame = LoginUI.getInstance();
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		frame.setSize(400, 225);
-		frame.setVisible(true);
-	}*/
+	
+	public static void main(String[]args) {
+		LoginUI login = LoginUI.getInstance();
+	}
 }

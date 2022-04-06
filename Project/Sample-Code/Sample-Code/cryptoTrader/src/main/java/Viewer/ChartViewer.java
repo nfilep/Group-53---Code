@@ -107,16 +107,20 @@ public class ChartViewer extends JPanel implements ActionListener{
 		//frame.add(scrollPane);
 		this.setSize(800,800);
 		//this.setPreferredSize(new Dimension(800,800));
+		//this.setBounds(960, 0, 960, 1080);
 		//this.pack();
         //this.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		int index = 0;
+		
 		// TODO Auto-generated method stub
 		String command = e.getActionCommand();
-		if ("refresh".equals(command)) {
-			for (int count = 0; count < dtm.getRowCount(); count++){
+		int count = 0;
+		if("refresh".equals(command) && index < count) {
+			for(count = index; count < dtm.getRowCount(); count++){
 					Object traderObject = dtm.getValueAt(count, 0);
 					if (traderObject == null) {
 						JOptionPane.showMessageDialog(this, "please fill in Trader name on line " + (count + 1) );
@@ -140,7 +144,13 @@ public class ChartViewer extends JPanel implements ActionListener{
 						return;
 					}
 					String strategyName = strategyObject.toString();
-					Bitconnect.systemUser.addBroker(traderName, coinNames, strategyName);
+					boolean success = Bitconnect.systemUser.addBroker(traderName, coinNames, strategyName); 
+					if(!success) {
+						JOptionPane.showMessageDialog(this, "broker with name " + (traderName) + " has already been added" );
+						return;
+					}else {
+						index++;
+					}
 					Bitconnect.systemUser.printBrokerList();
 	        }
 			System.out.println(Bitconnect.systemUser.getBrokerList().size());
@@ -149,10 +159,11 @@ public class ChartViewer extends JPanel implements ActionListener{
 			dtm.addRow(new String[3]);
 		} else if ("remTableRow".equals(command)) {
 			int selectedRow = table.getSelectedRow();
-			if (selectedRow != -1)
+			if (selectedRow != -1) {
 				dtm.removeRow(selectedRow);
 				Bitconnect.systemUser.removeBroker(selectedRow);
 				Bitconnect.systemUser.printBrokerList();
+			}
 		}
 	}
 	

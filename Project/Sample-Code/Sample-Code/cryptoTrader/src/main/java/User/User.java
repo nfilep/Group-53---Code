@@ -31,7 +31,7 @@ public class User {
 	}
 
 	/*Adds a new trading broker to the system. If a broker of this name already exists, a message is displayed indicating so*/
-	public void addBroker(String name, String[] cryptoCoinList, String strategy) {
+	public boolean addBroker(String name, String[] cryptoCoinList, String strategy) {
 	/*ATTRIBUTE ARRAY OF BROKERS
 	users= are NOT the same as BROKERS
 	name => brokers
@@ -39,7 +39,9 @@ public class User {
 		TradingBroker newBroker = new TradingBroker(name, cryptoCoinList, strategy);
 		if(!brokerList.contains(newBroker)) {
 			brokerList.add(newBroker);
+			return true;
 		}
+		return false;
 	} 
 	/*Removes a trading broker from the system.
 	 *  If no broker of this name exists, a message is displayed indicating so*/

@@ -1,40 +1,15 @@
 package MainUI;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
-import Viewer.ChartViewer;
-import Viewer.HistogramViewer;
-import Viewer.TableViewer;
-import cryptoTrader.utils.DataVisualizationCreator;
+import Viewer.*;
 
 public class MainUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -66,12 +41,9 @@ public class MainUI extends JFrame implements ActionListener {
 		
 		JPanel rightSide = new JPanel();
 		rightSide.add(c);
-		//c = new ChartViewer();
 		
-		//this.add(t);
 		this.add(leftSide);
 		this.add(rightSide);
-		//this.add(h);
 
 		this.setPreferredSize(new Dimension(1920, 1080));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,7 +56,6 @@ public class MainUI extends JFrame implements ActionListener {
 		//stats.revalidate();
 	}
 
-	// used to be main
 	public static void main(String[] args) {
 		MainUI mainTest = MainUI.getInstance();
 	}

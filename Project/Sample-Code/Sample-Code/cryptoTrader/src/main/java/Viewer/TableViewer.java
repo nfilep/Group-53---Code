@@ -23,8 +23,6 @@ public class TableViewer extends JPanel implements iViewer{
 	private DefaultTableModel model;
 	
 	public TableViewer() {
-		//frame = new JFrame();
-		//panel = new JPanel();
 		table = new JTable();
 		table.setEnabled(false);
 		model = new DefaultTableModel();
@@ -42,7 +40,7 @@ public class TableViewer extends JPanel implements iViewer{
                 TitledBorder.CENTER,
                 TitledBorder.TOP));
 			
-		scrollPane.setPreferredSize(new Dimension(800, 300));
+		scrollPane.setPreferredSize(new Dimension(600, 300));
 		this.add(scrollPane);
 		this.setSize(500, 200);
         this.setVisible(true);
@@ -67,6 +65,7 @@ public class TableViewer extends JPanel implements iViewer{
 		JFrame frame = new JFrame();
 		//this.getContentPane.add(t);
 		frame.add(t);
+		frame.setVisible(true);
 		
 		TradingStrategy stratA = new StrategyA();
 		String[] coins = {"BTC", "ETH"};

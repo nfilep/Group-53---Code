@@ -61,7 +61,7 @@ public class HistogramViewer extends JPanel implements iViewer {
 				true);
 		
 		ChartPanel chartPanel = new ChartPanel(barChart);
-		chartPanel.setPreferredSize(new Dimension(700, 400));
+		chartPanel.setPreferredSize(new Dimension(600, 300));
 		chartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		chartPanel.setBackground(Color.white);
 		
@@ -70,7 +70,7 @@ public class HistogramViewer extends JPanel implements iViewer {
 		chartPanel.setDomainZoomable(false);
 		
 		this.add(chartPanel);
-		this.setSize(700, 400);
+		this.setSize(600, 300);
         this.setVisible(true);
 	}
 	
