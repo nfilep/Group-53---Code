@@ -9,13 +9,13 @@ public class TradeResult {
 	private String trader;
 	private TradingStrategy strategy;
 	private String coinTraded;
-	private double coinPrice;
+	private Double coinPrice;
 	private String action;
-	private double quantity;
+	private Double quantity;
 	private String timeStamp;
 	private boolean success;
 	
-	public TradeResult(TradingStrategy strategy, String coinTraded, double coinPrice, String action, double quantity, String timeStamp, boolean success) {
+	public TradeResult(TradingStrategy strategy, String coinTraded, Double coinPrice, String action, Double quantity, String timeStamp, boolean success) {
 		trader = "N/A";
 		this.strategy = strategy;
 		this.coinTraded = coinTraded;
@@ -46,7 +46,7 @@ public class TradeResult {
 		return coinTraded;
 	}
 	
-	public double getCoinPrice() {
+	public Double getCoinPrice() {
 		return coinPrice;
 	}
 	
@@ -55,7 +55,7 @@ public class TradeResult {
 	}
 	
 	public String[] getData() {
-		String[] row = {trader, strategy.toString(), coinTraded, action, "" + quantity, "" + coinPrice, timeStamp}; 
+		String[] row = {trader, strategy.toString(), coinTraded, action, quantity.toString(), coinPrice.toString(), timeStamp}; 
 		return row;
 	}
 	

@@ -17,19 +17,19 @@ public class TradingBroker {
 		this.name = name;
 		this.coinList = coinList;
 		if(strategy.equals("Strategy-A")) {
-			StrategyCreatorA cr = new StrategyCreatorA();
+			Creator cr = new StrategyCreatorA();
 			this.strategy = cr.create();
 		} else if(strategy.equals("Strategy-B")) {
-			StrategyCreatorA cr = new StrategyCreatorA();
+			Creator cr = new StrategyCreatorB();
 			this.strategy = cr.create();
 		} else if(strategy.equals("Strategy-C")) {
-			StrategyCreatorA cr = new StrategyCreatorA();
+			Creator cr = new StrategyCreatorC();
 			this.strategy = cr.create();
 		} else if(strategy.equals("Strategy-D")) {
-			StrategyCreatorA cr = new StrategyCreatorA();
+			Creator cr = new StrategyCreatorD();
 			this.strategy = cr.create();
 		}else if(strategy.equals("Strategy-E")) {
-			StrategyCreatorA cr = new StrategyCreatorA();
+			Creator cr = new StrategyCreatorE();
 			this.strategy = cr.create();
 		}else {
 			System.out.println("Fatal error");
