@@ -13,7 +13,7 @@ public class StrategyA extends TradingStrategy {
 		
 		else {
 			int btcIndex = coinList.indexOf("BTC");
-			if(coinPriceList.get(btcIndex) < 50000) {
+			if(coinPriceList.get(btcIndex) < 55000) {
 				int ethIndex = coinList.indexOf("ETH");
 				return new TradeResult(this, "ETH", coinPriceList.get(ethIndex), "Buy", 0.5, "", true);
 			}

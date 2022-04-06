@@ -14,7 +14,7 @@ public class StrategyB extends TradingStrategy {
 		else {
 			int btcIndex = coinList.indexOf("BTC");
 			int ethIndex = coinList.indexOf("ETH");
-			if(coinPriceList.get(btcIndex) >= 50000 && coinPriceList.get(ethIndex) >= 3500) {
+			if(coinPriceList.get(btcIndex) >= 55000 && coinPriceList.get(ethIndex) >= 4000) {
 				int adaIndex = coinList.indexOf("ADA");
 				return new TradeResult(this, "ADA", coinPriceList.get(adaIndex), "Buy", 300, "", true);
 			}

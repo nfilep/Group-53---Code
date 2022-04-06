@@ -13,7 +13,7 @@ public class StrategyC extends TradingStrategy{
 		
 		else {
 			int dogeIndex = coinList.indexOf("DOGE");
-			if(coinPriceList.get(dogeIndex) > 0.10)
+			if(coinPriceList.get(dogeIndex) < 0.20)
 				return new TradeResult(this, "DOGE", coinPriceList.get(dogeIndex), "Buy", 10000, "", true);
 			
 			else
