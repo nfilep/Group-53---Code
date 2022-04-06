@@ -1,5 +1,6 @@
 package Trade;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import Trade.strategies.TradingStrategy;
@@ -7,18 +8,18 @@ import Trade.strategies.TradingStrategy;
 public class TradeResult {
 	private String trader;
 	private TradingStrategy strategy;
-	private String[] coinList;
-	private double[] coinPriceList;
+	private String coinTraded;
+	private double coinPrice;
 	private String action;
-	private int quantity;
+	private double quantity;
 	private String timeStamp;
 	private boolean success;
 	
-	public TradeResult(String trader, TradingStrategy strategy, String[] coinList, double[] coinPriceList, String action, int quantity, String timeStamp, boolean success) {
-		this.trader = trader;
+	public TradeResult(TradingStrategy strategy, String coinTraded, double coinPrice, String action, double quantity, String timeStamp, boolean success) {
+		trader = "N/A";
 		this.strategy = strategy;
-		this.coinList = coinList;
-		this.coinPriceList = coinPriceList;
+		this.coinTraded = coinTraded;
+		this.coinPrice = coinPrice;
 		this.action = action;
 		this.quantity = quantity;
 		this.timeStamp = timeStamp;
@@ -29,6 +30,10 @@ public class TradeResult {
 		return trader;
 	}
 	
+	public void setTrader(String trader) {
+		this.trader = trader;
+	}
+	
 	public String getTimeStamp() {
 		return timeStamp;
 	}
@@ -37,27 +42,21 @@ public class TradeResult {
 		return strategy;
 	}
 	
-	public String[] getCoinList() {
-		return coinList;
+	public String getCoinTraded() {
+		return coinTraded;
 	}
 	
-	public double[] getCoinPriceList() {
-		return coinPriceList;
+	public double getCoinPrice() {
+		return coinPrice;
 	}
 	
 	public boolean getSuccess() {
 		return success;
 	}
 	
-	public String[][] getData() {
-		String[][] data = new String[coinList.length][];
-		for(int i = 0; i < coinList.length; i++) {
-			String[] row = {trader, strategy.toString(), coinList[i].toString(), action, "" + quantity, ((Double)coinPriceList[i]).toString(),timeStamp}; 
-			data[i] = row; 
-		}
-		
-		//String[] data = {trader, strategy.toString(), coins, action, "" + quantity, prices,timeStamp};
-		return data;
+	public String[] getData() {
+		String[] row = {trader, strategy.toString(), coinTraded, action, "" + quantity, "" + coinPrice, timeStamp}; 
+		return row;
 	}
 	
 }

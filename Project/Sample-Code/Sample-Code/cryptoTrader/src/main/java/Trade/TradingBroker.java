@@ -1,14 +1,19 @@
 package Trade;
 
+import java.util.ArrayList;
+
 import Trade.strategies.*;
 
 public class TradingBroker {
+	/**
+	 * 
+	 */
 	private String name;
-	private String[] coinList;
-	private double[] coinPriceList;
+	private ArrayList<String> coinList;
+	private ArrayList<Double> coinPriceList;
 	private TradingStrategy strategy;
 	
-	public TradingBroker(String name, String[] coinList, String strategy) {
+	public TradingBroker(String name, ArrayList<String> coinList, TradingStrategy strategy) {
 		this.name = name;
 		this.coinList = coinList;
 		if(strategy.equals("Strategy-A")) {
@@ -37,11 +42,15 @@ public class TradingBroker {
 		return name;
 	}
 	
-	public String[] getCoinList() {
+	public ArrayList<String> getCoinList() {
 		return coinList;
 	}
 	
-	public double[] getCoinPriceList() {
+	public void addCoin(String coin) {
+		coinList.add(coin);
+	}
+	
+	public ArrayList<Double> getCoinPriceList() {
 		return coinPriceList;
 	}
 	
@@ -49,10 +58,17 @@ public class TradingBroker {
 		return strategy;
 	}
 	
-	public void setCoinPriceList(double[] coinPriceList) {
+	public void setCoinPriceList(ArrayList<Double> coinPriceList) {
 		this.coinPriceList = coinPriceList;
 	}
 	
+	public TradeResult performTrade() {
+		TradeResult result = strategy.trade(coinList, coinPriceList);
+		result.setTrader(name);
+		return result;
+	}
+	
+	@Override
 	public boolean equals(Object o) {
 		return this.name.equals(((TradingBroker)o).getName());
 	}

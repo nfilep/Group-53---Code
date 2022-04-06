@@ -4,19 +4,17 @@ import java.util.ArrayList;
 
 import Trade.TradeResult;
 
-public class StrategyA extends TradingStrategy {
+public class StrategyC extends TradingStrategy{
 
 	@Override
 	public TradeResult trade(ArrayList<String> coinList, ArrayList<Double> coinPriceList) {
-		if(!coinList.contains("BTC") || !coinList.contains("ETH"))
+		if(!coinList.contains("DOGE"))
 			return new TradeResult(this, null, 0, null, 0, "", false);
 		
 		else {
-			int btcIndex = coinList.indexOf("BTC");
-			if(coinPriceList.get(btcIndex) < 50000) {
-				int ethIndex = coinList.indexOf("ETH");
-				return new TradeResult(this, "ETH", coinPriceList.get(ethIndex), "Buy", 0.5, "", true);
-			}
+			int dogeIndex = coinList.indexOf("DOGE");
+			if(coinPriceList.get(dogeIndex) > 0.10)
+				return new TradeResult(this, "DOGE", coinPriceList.get(dogeIndex), "Buy", 10000, "", true);
 			
 			else
 				return new TradeResult(this, null, 0, null, 0, "", false);
@@ -25,6 +23,6 @@ public class StrategyA extends TradingStrategy {
 
 	@Override
 	public String toString() {
-		return "Strategy-A";
+		return "Strategy-C";
 	}
 }
