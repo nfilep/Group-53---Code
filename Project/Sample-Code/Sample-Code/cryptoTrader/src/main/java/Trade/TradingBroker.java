@@ -16,25 +16,7 @@ public class TradingBroker {
 	public TradingBroker(String name, ArrayList<String> coinList, TradingStrategy strategy) {
 		this.name = name;
 		this.coinList = coinList;
-		if(strategy.equals("Strategy-A")) {
-			Creator cr = new StrategyCreatorA();
-			this.strategy = cr.create();
-		} else if(strategy.equals("Strategy-B")) {
-			Creator cr = new StrategyCreatorB();
-			this.strategy = cr.create();
-		} else if(strategy.equals("Strategy-C")) {
-			Creator cr = new StrategyCreatorC();
-			this.strategy = cr.create();
-		} else if(strategy.equals("Strategy-D")) {
-			Creator cr = new StrategyCreatorD();
-			this.strategy = cr.create();
-		}else if(strategy.equals("Strategy-E")) {
-			Creator cr = new StrategyCreatorE();
-			this.strategy = cr.create();
-		}else {
-			System.out.println("Fatal error");
-			this.strategy = null;
-		}
+		this.strategy = strategy;
 		coinPriceList = null;
 	}
 	
