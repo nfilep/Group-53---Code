@@ -37,12 +37,15 @@ public class User {
 	name => brokers
 		/**/
 		TradingBroker newBroker = new TradingBroker(name, cryptoCoinList, strategy);
-		brokerList.add(newBroker);
+		if(!brokerList.contains(newBroker)) {
+			brokerList.add(newBroker);
+		}
 	} 
 	/*Removes a trading broker from the system.
 	 *  If no broker of this name exists, a message is displayed indicating so*/
-	public void removeBroker(String name) {
-		boolean isBroker = false; 
+	public void removeBroker(int index) {
+		brokerList.remove(index);
+		/*
 		for(int i = 0; i < brokerList.size(); i++) {
 			TradingBroker broker = brokerList.get(i);
 			if(broker.getName().equals(name)){
@@ -53,6 +56,7 @@ public class User {
 		if(isBroker == false) {
 			System.out.println("No broker named " + name + " exists.");
 		}
+		*/
 	}
 	
 	
@@ -69,6 +73,17 @@ public class User {
 		 * do 
 		 * notify them for prices of cons interested in */
 	}
+	
+	public ArrayList<TradingBroker> getBrokerList() {
+		return this.brokerList;
+	}
+	
+	public void printBrokerList() {
+		for(int i = 0; i < brokerList.size(); i++) {
+			System.out.println(brokerList.get(i).getName());
+		}
+	}
+	
 	/* 
 	 * QUESTIONS
 	 * TO GET USERNAME AND PASSWORD, DO I HAVE TO READ EACH LINE IN THE TEXT FILE

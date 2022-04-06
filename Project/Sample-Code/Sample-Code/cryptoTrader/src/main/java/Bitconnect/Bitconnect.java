@@ -7,6 +7,8 @@ import LoginUI.LoginUI;
 import javax.swing.JFrame;
 
 public class Bitconnect {	
+	public static User systemUser;
+	
 	public static void main(String[] args) {
 		LoginUI login = LoginUI.getInstance();
 		//instance.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -20,8 +22,10 @@ public class Bitconnect {
 				e.printStackTrace();
 			}
 		}
-		User systemUser = login.getUser();
+		systemUser = login.getUser();
+		System.out.println(systemUser.getBrokerList().size());
 		System.out.println("Test");
 		MainUI.run();
+		
 	}
 }

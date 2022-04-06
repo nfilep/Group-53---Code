@@ -52,4 +52,8 @@ public class TradingBroker {
 	public void setCoinPriceList(double[] coinPriceList) {
 		this.coinPriceList = coinPriceList;
 	}
+	
+	public boolean equals(Object o) {
+		return this.name.equals(((TradingBroker)o).getName());
+	}
 }

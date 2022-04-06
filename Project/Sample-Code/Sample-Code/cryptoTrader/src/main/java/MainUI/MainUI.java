@@ -54,16 +54,24 @@ public class MainUI extends JFrame implements ActionListener {
 
 	private MainUI() {
 		super("Bitconnect"); 		// Set window title
-		this.getContentPane().setLayout(new GridLayout(2,2));
-//		frame = new JFrame();
+		this.setLayout(new GridLayout(1,2));
+		
+		JPanel leftSide = new JPanel(new GridLayout(2,1));
 		
 		h = new HistogramViewer();
 		t = new TableViewer();
 		c = new ChartViewer();
+		leftSide.add(t);
+		leftSide.add(h);
 		
-		this.getContentPane().add(t);
-		this.getContentPane().add(c);
-		this.getContentPane().add(h);
+		JPanel rightSide = new JPanel();
+		rightSide.add(c);
+		//c = new ChartViewer();
+		
+		//this.add(t);
+		this.add(leftSide);
+		this.add(rightSide);
+		//this.add(h);
 
 		this.setPreferredSize(new Dimension(1920, 1080));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,7 +92,6 @@ public class MainUI extends JFrame implements ActionListener {
 	public static void run() {
 		JFrame frame = MainUI.getInstance();
 		//frame.setSize(1920, 1080);
-		
 	}
 
 	@Override

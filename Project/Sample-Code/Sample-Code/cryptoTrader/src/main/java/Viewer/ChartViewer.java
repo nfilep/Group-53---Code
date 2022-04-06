@@ -28,7 +28,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import Bitconnect.Bitconnect;
 import Trade.*;
+import User.User;
 
 public class ChartViewer extends JPanel implements ActionListener{
 	private List<String> selectedList;
@@ -84,15 +86,15 @@ public class ChartViewer extends JPanel implements ActionListener{
 		table.setFillsViewportHeight(true);
 		
 		//this.setLayout(new BorderLayout());
-		this.add(scrollPane, BorderLayout.PAGE_START);
+		this.add(scrollPane, BorderLayout.NORTH);
 		//JPanel buttons = new JPanel();
 		//buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 		//buttons.add(addRow);
 		//buttons.add(remRow);
-		this.add(addRow, BorderLayout.LINE_START);
-		this.add(remRow, BorderLayout.LINE_END);
+		this.add(addRow, BorderLayout.WEST);
+		this.add(remRow, BorderLayout.EAST);
 		tradeButton.setAlignmentX(CENTER_ALIGNMENT);
-		this.add(tradeButton, BorderLayout.PAGE_END);
+		this.add(tradeButton, BorderLayout.SOUTH);
 
 		// Set charts region
 		/*JPanel west = new JPanel();
@@ -138,14 +140,10 @@ public class ChartViewer extends JPanel implements ActionListener{
 						return;
 					}
 					String strategyName = strategyObject.toString();
-					//System.out.println(strategyName);
-					//System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
-					TradingBroker broker = new TradingBroker(traderName, coinNames, strategyName);
-					
-					//System.out.println("New trading broker added: " + broker.getName());
-					//System.out.println(broker);
+					Bitconnect.systemUser.addBroker(traderName, coinNames, strategyName);
+					Bitconnect.systemUser.printBrokerList();
 	        }
-			//stats.removeAll();
+			System.out.println(Bitconnect.systemUser.getBrokerList().size());
 			System.out.println("Trade performed");
 		} else if ("addTableRow".equals(command)) {
 			dtm.addRow(new String[3]);
@@ -153,6 +151,8 @@ public class ChartViewer extends JPanel implements ActionListener{
 			int selectedRow = table.getSelectedRow();
 			if (selectedRow != -1)
 				dtm.removeRow(selectedRow);
+				Bitconnect.systemUser.removeBroker(selectedRow);
+				Bitconnect.systemUser.printBrokerList();
 		}
 	}
 	
