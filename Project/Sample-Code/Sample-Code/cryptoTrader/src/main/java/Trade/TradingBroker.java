@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import Trade.strategies.*;
 
 /**
- * Returns a TradeResult object depending on the information obtained by performing a trade 
+ * This class represents a trading broker with a desired list of cryptocoinss 
  * @author Isaac
  */
 public class TradingBroker {
@@ -43,7 +43,7 @@ public class TradingBroker {
 	}
 	
 	/**
-	 * @return coinList
+	 * @return the list of coins
 	 */
 	public ArrayList<String> getCoinList() {
 		return coinList;
