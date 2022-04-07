@@ -4,9 +4,19 @@ import java.util.ArrayList;
 
 import Trade.TradeResult;
 
+/**
+ * 
+ * @author Natalie
+ *
+ */
 public class StrategyA extends TradingStrategy {
 
-	@Override
+	/**
+	 * @param coinList
+	 * @param coinPriceList
+	 * @Override
+	 * @return
+	 */
 	public TradeResult trade(ArrayList<String> coinList, ArrayList<Double> coinPriceList) {
 		String date = java.time.LocalDate.now().toString();
 		
@@ -26,8 +36,10 @@ public class StrategyA extends TradingStrategy {
 				return new TradeResult(this, "N/A", null, "N/A", null, date, false);
 		}
 	}
-
-	@Override
+	/**
+	 * @return 
+	 * @Override
+	 */
 	public String toString() {
 		return "Strategy-A";
 	}

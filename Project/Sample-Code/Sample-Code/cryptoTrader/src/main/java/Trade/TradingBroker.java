@@ -12,12 +12,14 @@ public class TradingBroker {
 	private ArrayList<String> coinList;
 	private ArrayList<Double> coinPriceList;
 	private TradingStrategy strategy;
+	private int numSuccessfulTrades;
 	
 	public TradingBroker(String name, ArrayList<String> coinList, TradingStrategy strategy) {
 		this.name = name;
 		this.coinList = coinList;
 		this.strategy = strategy;
-		coinPriceList = null;
+		coinPriceList = new ArrayList<Double>();
+		numSuccessfulTrades = 0;
 	}
 	
 	public String getName() {
@@ -36,18 +38,25 @@ public class TradingBroker {
 		return coinPriceList;
 	}
 	
-	public TradingStrategy getStrategy() {
-		return strategy;
+	public void addPrice(Double price) {
+		coinPriceList.add(price);
 	}
 	
-	public void setCoinPriceList(ArrayList<Double> coinPriceList) {
-		this.coinPriceList = coinPriceList;
+	public TradingStrategy getStrategy() {
+		return strategy;
 	}
 	
 	public TradeResult performTrade() {
 		TradeResult result = strategy.trade(coinList, coinPriceList);
 		result.setTrader(name);
+		if(result.getSuccess()) {
+			numSuccessfulTrades++;
+		}
 		return result;
+	}
+	
+	public int getNumSuccessfulTrades() {
+		return numSuccessfulTrades;
 	}
 	
 	@Override

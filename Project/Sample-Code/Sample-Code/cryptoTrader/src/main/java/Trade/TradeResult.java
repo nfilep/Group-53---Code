@@ -54,8 +54,8 @@ public class TradeResult {
 		return success;
 	}
 	
-	public String[] getData() {
-		String[] row = {trader, strategy.toString(), coinTraded, action, quantity.toString(), coinPrice.toString(), timeStamp}; 
+	public Object[] getData() {
+		Object[] row = {trader, strategy.toString(), coinTraded, action, quantity, coinPrice, timeStamp}; 
 		return row;
 	}
 	
