@@ -33,22 +33,23 @@ import Trade.*;
 import Trade.strategies.StrategyCreator;
 import User.User;
 
+/**
+ * @author
+ * this class
+ */
 public class ChartViewer extends JPanel implements ActionListener{
-	private List<String> selectedList;
+	/**
+	 * tradtton
+	 * dtm
+	 * table
+	 */
 	private JButton tradeButton;
-
-	private JTextArea selectedTickerList;
-	private JTextArea tickerText;
-	private JTextArea BrokerText;
-	private JComboBox<String> strategyList;
-	private Map<String, List<String>> brokersTickers = new HashMap<>();
-	private Map<String, String> brokersStrategies = new HashMap<>();
-	private List<String> selectedTickers = new ArrayList<>();
-	private String selectedStrategy = "";
-	
 	private DefaultTableModel dtm;
 	private JTable table;
 	
+	/**
+	 * 
+	 */
 	public ChartViewer() {
 		table = new JTable();
 		
@@ -64,7 +65,6 @@ public class ChartViewer extends JPanel implements ActionListener{
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Trading Client Actions",
 				TitledBorder.CENTER, TitledBorder.TOP));
-		//scrollPane.setPreferredSize(new Dimension(800, 300));
 		
 		Vector<String> strategyNames = new Vector<String>();
 		strategyNames.add("Strategy-A");
@@ -84,39 +84,24 @@ public class ChartViewer extends JPanel implements ActionListener{
 		remRow.addActionListener(this);
 
 		table.setFillsViewportHeight(true);
-		
-		//this.setLayout(new BorderLayout());
+
 		this.add(scrollPane, BorderLayout.NORTH);
-		//JPanel buttons = new JPanel();
-		//buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
-		//buttons.add(addRow);
-		//buttons.add(remRow);
 		this.add(addRow, BorderLayout.WEST);
 		this.add(remRow, BorderLayout.EAST);
 		tradeButton.setAlignmentX(CENTER_ALIGNMENT);
 		this.add(tradeButton, BorderLayout.SOUTH);
 
-		// Set charts region
-		/*JPanel west = new JPanel();
-		//west.setPreferredSize(new Dimension(900, 650));
-		stats = new JPanel();
-		stats.setLayout(new GridLayout(2, 2));
-
-		west.add(stats);*/
-		
-		//frame.add(scrollPane);
 		this.setSize(800,800);
-		//this.setPreferredSize(new Dimension(800,800));
-		//this.setBounds(960, 0, 960, 1080);
-		//this.pack();
-        //this.setVisible(true);
 	}
 
 	@Override
+	/**
+	 * @param e
+	 * 	
+	 */
 	public void actionPerformed(ActionEvent e) {
 		int index = 0;
 		
-		// TODO Auto-generated method stub
 		String command = e.getActionCommand();
 		if("refresh".equals(command)) {
 			for(int count = Bitconnect.systemUser.getNumBrokers(); count < dtm.getRowCount(); count++){
@@ -135,10 +120,10 @@ public class ChartViewer extends JPanel implements ActionListener{
 					String[] coinNames = coinObject.toString().split(",");
 					ArrayList<String> coinList = new ArrayList<String>();
 					for(int i =0; i < coinNames.length; i++) {
+						coinNames[i] = coinNames[i].strip();
 						System.out.println(coinNames[i]);
 						coinList.add(coinNames[i]);
 					}
-					//System.out.println(coinNames);
 					Object strategyObject = dtm.getValueAt(count, 2);
 					if (strategyObject == null) {
 						JOptionPane.showMessageDialog(this, "please fill in strategy name on line " + (count + 1) );
@@ -167,7 +152,10 @@ public class ChartViewer extends JPanel implements ActionListener{
 			}
 		}
 	}
-	
+/**
+ * For my own testing purposes. 
+ * @param args
+ */	
 	public static void main(String[] args) {
 		ChartViewer c = new ChartViewer();
 		JFrame frame = new JFrame();
