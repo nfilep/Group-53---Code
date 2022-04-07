@@ -15,9 +15,9 @@ public class MainUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static MainUI instance; // This makes sure it follows the singleton design pattern
 	
-	private HistogramViewer h;
-	private TableViewer t;
-	private ChartViewer c;
+	public static HistogramViewer h;
+	public static TableViewer t;
+	public static ChartViewer c;
 	
 	// Uses singleton method
 	public static MainUI getInstance() {
