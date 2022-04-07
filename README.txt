@@ -9,7 +9,7 @@ Built With
   * Javaxswing
 
 Getting Started
-  To run the Bitconnect System, one will need to open Eclipse and run the Bitconnect class. This class is responsible for driving the system.
+  To run the Bitconnect System, one will need to open Eclipse and run the Bitconnect class. This class is responsible for driving the system. A list of valid login credentials is provided in the users.txt file. The username and password are on the same line and are split by a space.
 
 Open Issues / Future Features
   * Adding different types of graphs to represent the data
