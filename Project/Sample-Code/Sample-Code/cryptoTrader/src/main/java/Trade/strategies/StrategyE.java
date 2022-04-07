@@ -4,9 +4,21 @@ import java.util.ArrayList;
 
 import Trade.TradeResult;
 
+/**
+ * this class implements logic for strategy E that gets Trade result
+ * 
+ * @author Isaac
+ *
+ */
 public class StrategyE extends TradingStrategy{
 	
-	@Override
+	/** It checks if  the coin requested in a Broker coin list contains AVAX or not SHIB
+	 * @param coinList			an array list with the list of coins
+	 * @param coinPriceList		an array list with all the prices for the coins requested
+	 * @Override
+	 * @return a new TradeResult object
+	 * 
+	 */
 	public TradeResult trade(ArrayList<String> coinList, ArrayList<Double> coinPriceList) {
 		String date = java.time.LocalDate.now().toString();
 		
@@ -32,7 +44,10 @@ public class StrategyE extends TradingStrategy{
 		}
 	}
 
-	@Override
+	/**
+	 * @return the String with the name Strategy-E
+	 * @Override
+	 */
 	public String toString() {
 		return "Strategy-E";
 	}

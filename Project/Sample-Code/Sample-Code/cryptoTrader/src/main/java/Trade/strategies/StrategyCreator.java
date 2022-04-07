@@ -1,7 +1,15 @@
 package Trade.strategies;
 
+/**It creates a strategy object to perform an algorithm
+ * @author Isaac
+ */
 public class StrategyCreator {
 
+	/** it checks if stratName has contents of a strategy to be implemented 
+	 * and create a new object of that specific strategy
+	 * @param stratName 	a string that has the name of the strategy
+	 * to be implement
+	 */
 	public TradingStrategy create(String stratName) {
 		if(stratName.equals("Strategy-A")) 
 			return new StrategyA();
