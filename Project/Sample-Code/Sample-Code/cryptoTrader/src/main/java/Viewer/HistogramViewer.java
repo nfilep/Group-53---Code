@@ -27,6 +27,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import MainUI.MainUI;
 import Trade.*;
 import Trade.strategies.*;
+import Bitconnect.Bitconnect;
 
 public class HistogramViewer extends JPanel implements iViewer {
 	private final String[] STRATEGIES = {"Strategy A","Strategy B","Strategy C","Strategy D","Strategy E"}; 
@@ -77,7 +78,14 @@ public class HistogramViewer extends JPanel implements iViewer {
 	@Override
 	public void draw(TradeResult result) {
 		if(result.getSuccess()) {
-			dataset.setValue(1,result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
+			
+			//System.out.println(currVal);
+			TradingBroker broker = Bitconnect.systemUser.getBroker(result.getTrader());
+			//int currVal = (int) dataset.setValue(broker.getNumSuccessfulTrades(),result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
+			//System.out.println(broker.getNumSuccessfulTrades());
+			dataset.setValue(broker.getNumSuccessfulTrades(),result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
+			//dataset.setValue(1,result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
+			
 			plot.setDataset(0, dataset);
 		}else {
 			JOptionPane.showMessageDialog(this, "Trade failed.");
@@ -87,18 +95,20 @@ public class HistogramViewer extends JPanel implements iViewer {
 	
 	private int getStrategyIndex(TradingStrategy strategy) {
 		String str = strategy.toString();
-		return 65 - str.charAt(str.length()-1);
+		return str.charAt(str.length()-1) - 65;
 	}
 	
+	/*
 	public static void main(String[] args) {
 		HistogramViewer t = new HistogramViewer();
 		JFrame frame = new JFrame();
 		frame.add(t);
 		frame.pack();
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		TradingStrategy stratA = new StrategyA();
-		String[] traderNames = {"Natalie", "Anusha", "Ewere", "Isaac", "Kostas"};
+		String[] traderNames = {"Natalie", "Natalie", "Natalie", "Isaac", "Kostas"};
 		String[] coins = {"BTC", "ETH"};
 		double[] prices = {1.00, 2.50};
 		boolean[] passFail = {true,true,true,true,true};
@@ -108,5 +118,5 @@ public class HistogramViewer extends JPanel implements iViewer {
 			testResult = new TradeResult(traderNames[i], stratA, coins, prices, "buy", 100, "2022/04/02", passFail[i]);
 			t.draw(testResult);
 		}
-	}
+	}*/
 }

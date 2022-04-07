@@ -48,18 +48,11 @@ public class TableViewer extends JPanel implements iViewer{
 	
 	@Override
 	public void draw(TradeResult result) {
-		if(result.getSuccess()) {
-			Object[][] displayData = result.getData();
-			for(int i = 0; i < displayData.length; i++) {
-				model.addRow(displayData[i]);
-			}			
-		} else {
-			Object[] displayData = {result.getTrader(),result.getStrategy().toString(),"Null", "Fail","Null","Null",result.getTimeStamp()};
-			model.addRow(displayData);
-		}
+		Object[] displayData = result.getData();
+		model.addRow(displayData);		
 		table.setModel(model);
 	}
-	
+	/*
 	public static void main(String[] args) {
 		TableViewer t = new TableViewer();
 		JFrame frame = new JFrame();
@@ -77,6 +70,7 @@ public class TableViewer extends JPanel implements iViewer{
 			testResult = new TradeResult("Natalie", stratA, coins, prices, "buy", i*10, "2022/04/02", passFail[i]);
 			t.draw(testResult);
 		}
-	}
-
+		
+		
+	}*/
 }

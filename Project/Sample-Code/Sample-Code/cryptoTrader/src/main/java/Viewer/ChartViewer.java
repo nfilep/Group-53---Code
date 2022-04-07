@@ -30,6 +30,7 @@ import javax.swing.table.TableColumn;
 
 import Bitconnect.Bitconnect;
 import Trade.*;
+import Trade.strategies.StrategyCreator;
 import User.User;
 
 public class ChartViewer extends JPanel implements ActionListener{
@@ -52,7 +53,6 @@ public class ChartViewer extends JPanel implements ActionListener{
 		table = new JTable();
 		
 		this.setLayout(new BorderLayout());
-		//GridBagConstraints c = new GridBagConstraints();
 		
 		tradeButton = new JButton("Perform Trade");
 		tradeButton.setActionCommand("refresh");
@@ -118,9 +118,8 @@ public class ChartViewer extends JPanel implements ActionListener{
 		
 		// TODO Auto-generated method stub
 		String command = e.getActionCommand();
-		int count = 0;
-		if("refresh".equals(command) && index < count) {
-			for(count = index; count < dtm.getRowCount(); count++){
+		if("refresh".equals(command)) {
+			for(int count = Bitconnect.systemUser.getNumBrokers(); count < dtm.getRowCount(); count++){
 					Object traderObject = dtm.getValueAt(count, 0);
 					if (traderObject == null) {
 						JOptionPane.showMessageDialog(this, "please fill in Trader name on line " + (count + 1) );
@@ -134,8 +133,10 @@ public class ChartViewer extends JPanel implements ActionListener{
 						return;
 					}
 					String[] coinNames = coinObject.toString().split(",");
+					ArrayList<String> coinList = new ArrayList<String>();
 					for(int i =0; i < coinNames.length; i++) {
 						System.out.println(coinNames[i]);
+						coinList.add(coinNames[i]);
 					}
 					//System.out.println(coinNames);
 					Object strategyObject = dtm.getValueAt(count, 2);
@@ -144,17 +145,17 @@ public class ChartViewer extends JPanel implements ActionListener{
 						return;
 					}
 					String strategyName = strategyObject.toString();
-					boolean success = Bitconnect.systemUser.addBroker(traderName, coinNames, strategyName); 
+					StrategyCreator cr = new StrategyCreator();
+					boolean success = Bitconnect.systemUser.addBroker(traderName, coinList, cr.create(strategyName)); 
 					if(!success) {
 						JOptionPane.showMessageDialog(this, "broker with name " + (traderName) + " has already been added" );
 						return;
-					}else {
-						index++;
 					}
 					Bitconnect.systemUser.printBrokerList();
 	        }
-			System.out.println(Bitconnect.systemUser.getBrokerList().size());
+			System.out.println(Bitconnect.systemUser.getNumBrokers());
 			System.out.println("Trade performed");
+			Bitconnect.systemUser.performAllTrade();
 		} else if ("addTableRow".equals(command)) {
 			dtm.addRow(new String[3]);
 		} else if ("remTableRow".equals(command)) {
