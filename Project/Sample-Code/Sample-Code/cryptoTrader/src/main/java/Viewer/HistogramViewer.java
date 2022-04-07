@@ -29,17 +29,26 @@ import Trade.*;
 import Trade.strategies.*;
 import Bitconnect.Bitconnect;
 
+/**
+ * This class is responsible for generating the bar chart. This chart keeps track of how many trades each
+ * broker performed, and using what strategy.
+ * @author Natalie Filep
+ */
 public class HistogramViewer extends JPanel implements iViewer {
 	private final String[] STRATEGIES = {"Strategy A","Strategy B","Strategy C","Strategy D","Strategy E"}; 
 	DefaultCategoryDataset dataset;
 	CategoryPlot plot;
 	
+	/**
+	 * Constructor which sets up the panel, the chart, and everything needed for displaying.
+	 */
 	public HistogramViewer() {
 		dataset = new DefaultCategoryDataset();
 		
 		plot = new CategoryPlot();
 		BarRenderer barrenderer1 = new BarRenderer();
-		
+
+		// Initialize the empty dataset (so it's blank when starting up)
 		for(int i = 0; i < STRATEGIES.length; i++) {
 			dataset.setValue(0, "", STRATEGIES[i]);
 		}
@@ -75,16 +84,17 @@ public class HistogramViewer extends JPanel implements iViewer {
         this.setVisible(true);
 	}
 	
+	/**
+	 * If the trade is successful, update the histogram by updating the count. Otherwise,
+	 * display a message in a pop-up window indicating the trade has failed.
+	 * @param result
+	 */
 	@Override
 	public void draw(TradeResult result) {
 		if(result.getSuccess()) {
 			
-			//System.out.println(currVal);
 			TradingBroker broker = Bitconnect.systemUser.getBroker(result.getTrader());
-			//int currVal = (int) dataset.setValue(broker.getNumSuccessfulTrades(),result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
-			//System.out.println(broker.getNumSuccessfulTrades());
 			dataset.setValue(broker.getNumSuccessfulTrades(),result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
-			//dataset.setValue(1,result.getTrader(), STRATEGIES[getStrategyIndex(result.getStrategy())]);
 			
 			plot.setDataset(0, dataset);
 		}else {
@@ -93,30 +103,14 @@ public class HistogramViewer extends JPanel implements iViewer {
 		}
 	}
 	
+	/**
+	 * This private helper method turns the strategy into an integer index to be used for adding values
+	 * to a specific location in the dataset.
+	 * @param strategy
+	 * @return int index that is where the data to be put in the dataset
+	 */
 	private int getStrategyIndex(TradingStrategy strategy) {
 		String str = strategy.toString();
 		return str.charAt(str.length()-1) - 65;
 	}
-	
-	/*
-	public static void main(String[] args) {
-		HistogramViewer t = new HistogramViewer();
-		JFrame frame = new JFrame();
-		frame.add(t);
-		frame.pack();
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		TradingStrategy stratA = new StrategyA();
-		String[] traderNames = {"Natalie", "Natalie", "Natalie", "Isaac", "Kostas"};
-		String[] coins = {"BTC", "ETH"};
-		double[] prices = {1.00, 2.50};
-		boolean[] passFail = {true,true,true,true,true};
-		
-		TradeResult testResult;
-		for(int i = 0; i < traderNames.length; i++) {
-			testResult = new TradeResult(traderNames[i], stratA, coins, prices, "buy", 100, "2022/04/02", passFail[i]);
-			t.draw(testResult);
-		}
-	}*/
 }
