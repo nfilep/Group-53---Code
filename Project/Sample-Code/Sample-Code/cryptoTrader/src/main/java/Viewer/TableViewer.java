@@ -16,12 +16,25 @@ import javax.swing.table.DefaultTableModel;
 
 import Trade.TradeResult;
 import Trade.strategies.*;
-
+/**
+ * @author
+ * This class generates a table that displays the trading activity for each user.
+ * When the perform trade button is pressed, all the brokers activities get updated on the table.
+ * It extends JPanel because it will be added to a JFrame (MainUI)
+ */
 public class TableViewer extends JPanel implements iViewer{
+	/**
+	 * columnNames The names of the columns in the trading log
+	 * table The JTable object that holds the log
+	 * model The model for the table
+	 */
 	private final Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
 	private JTable table;
 	private DefaultTableModel model;
 	
+	/**
+	 * Constructor that sets up the table panel.
+	 */
 	public TableViewer() {
 		table = new JTable();
 		table.setEnabled(false);
@@ -46,31 +59,14 @@ public class TableViewer extends JPanel implements iViewer{
         this.setVisible(true);
 	}
 	
+	/**
+	 * This method displays the new result by adding the result as a new row to the table.
+	 * @param result
+	 */
 	@Override
 	public void draw(TradeResult result) {
 		Object[] displayData = result.getData();
-		model.addRow(displayData);		
+		model.addRow(displayData);
 		table.setModel(model);
 	}
-	/*
-	public static void main(String[] args) {
-		TableViewer t = new TableViewer();
-		JFrame frame = new JFrame();
-		//this.getContentPane.add(t);
-		frame.add(t);
-		frame.setVisible(true);
-		
-		TradingStrategy stratA = new StrategyA();
-		String[] coins = {"BTC", "ETH"};
-		double[] prices = {1.00, 2.50};
-		boolean[] passFail = {true,true,false,true,false};
-		
-		TradeResult testResult;
-		for(int i = 0; i < 5; i++) {
-			testResult = new TradeResult("Natalie", stratA, coins, prices, "buy", i*10, "2022/04/02", passFail[i]);
-			t.draw(testResult);
-		}
-		
-		
-	}*/
 }
