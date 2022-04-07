@@ -19,6 +19,10 @@ import javax.swing.border.TitledBorder;
 import Database.Database;
 import User.User;
 
+/**
+ * this class is a user interface to login in using user credential
+ * @author Nataliefilep
+ */
 public class LoginUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private final int MAX_ATTEMPTS = 3; // The maximum incorrect login attempts allowed
@@ -49,6 +53,9 @@ public class LoginUI extends JFrame implements ActionListener{
 		return instance;
 	}
 	
+	/**
+	 * descriptions are inside
+	 */
 	private LoginUI() {
 		super("Bitconnect Login"); // Set window title
 		
@@ -89,6 +96,9 @@ public class LoginUI extends JFrame implements ActionListener{
 	}
 
 	@Override
+	/** a built in method to check if the button is clicke or pressed
+	 * @param e
+	 */
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		String password = passwordInputField.getText(); // Get the inputed password
@@ -125,6 +135,12 @@ public class LoginUI extends JFrame implements ActionListener{
 		}
 	}
 	
+	/**
+	 * this method checks if the username is in the database 
+	 * and password matches that username
+	 * @param username user's name
+	 * @param password password for the user
+	 */
 	private boolean authenticate(String username, String password) {
 		Database db = Database.getInstance("users.txt");
 		if(Database.lookupUsername(username)) {
@@ -134,14 +150,23 @@ public class LoginUI extends JFrame implements ActionListener{
 		return false;
 	}
 	
+	/**
+	 * @return proceed
+	 */
 	public boolean getProceed() {
 		return proceed;
 	}
 	
+	/**
+	 * @return user
+	 */
 	public User getUser() {
 		return user;
 	}
 	
+	/**
+	 * creates a LoginUI object
+	 */
 	public static void main(String[]args) {
 		LoginUI login = LoginUI.getInstance();
 	}
